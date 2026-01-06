@@ -45,7 +45,6 @@ env:
   UPLOAD_FIRMWARE: true
   UPLOAD_RELEASE: ${{ inputs.UPLOAD_RELEASE }}
   TZ: Asia/Shanghai
-  SSH_ACTIONS: false
 
 jobs:
   build:
