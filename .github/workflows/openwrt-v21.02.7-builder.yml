@@ -23,14 +23,6 @@ on:
         options:
           - false
           - true
-      SSH_ACTIONS:
-        description: "SSH"
-        required: false
-        default: "false"
-        type: choice
-        options:
-          - false
-          - true
 
 env:
   REPO_URL: https://github.com/openwrt/openwrt
@@ -45,7 +37,7 @@ env:
   UPLOAD_FIRMWARE: true
   UPLOAD_RELEASE: ${{ inputs.UPLOAD_RELEASE }}
   TZ: Asia/Shanghai
-
+  SSH_ACTIONS: true
 jobs:
   build:
     runs-on: ubuntu-22.04
