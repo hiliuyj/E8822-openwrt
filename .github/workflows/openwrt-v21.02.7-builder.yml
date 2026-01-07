@@ -37,8 +37,8 @@ env:
   UPLOAD_FIRMWARE: true
   UPLOAD_RELEASE: ${{ inputs.UPLOAD_RELEASE }}
   TZ: Asia/Shanghai
-  SSH_ACTIONS: true
-  SSH_ACTIONS_2: true
+  SSH_ACTIONS: false
+  SSH_ACTIONS_2: false
 jobs:
   build:
     runs-on: ubuntu-22.04
