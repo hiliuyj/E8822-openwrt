@@ -38,7 +38,7 @@ env:
   UPLOAD_RELEASE: ${{ inputs.UPLOAD_RELEASE }}
   TZ: Asia/Shanghai
   SSH_ACTIONS: false
-  SSH_ACTIONS_2: false
+  SSH_ACTIONS_2: true
 jobs:
   build:
     runs-on: ubuntu-22.04
@@ -112,7 +112,7 @@ jobs:
       id: compile
       run: |
         cd openwrt
-        make -j1 V=s
+        make -j$(nproc)
         echo "status=success" >> $GITHUB_OUTPUT
         grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
         [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> $GITHUB_ENV
@@ -124,6 +124,12 @@ jobs:
       env:
         TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+
+    - name: Compile pakages
+      id: compile_pkg
+      run: |
+        cd openwrt
+        make package/compile -j$(nproc)
 
     - name: Check space usage
       if: (!cancelled())
