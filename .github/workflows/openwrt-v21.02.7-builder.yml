@@ -142,6 +142,7 @@ jobs:
 
     - name: Compile pakages
       id: compile_pkg
+      if: inputs.SSH_ACTIONS_2 == 'true' || contains(github.event.action, 'ssh')
       run: |
         cd openwrt
         make package/compile -j$(nproc)
