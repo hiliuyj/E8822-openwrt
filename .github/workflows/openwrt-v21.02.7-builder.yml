@@ -23,6 +23,22 @@ on:
         options:
           - false
           - true
+      SSH_ACTIONS:
+        description: "Befoer compile kernel ,SSH"
+        required: false
+        default: "false"
+        type: choice
+        options:
+          - false
+          - true
+      SSH_ACTIONS_2:
+        description: "Befoer compile pakages ,SSH"
+        required: false
+        default: "false"
+        type: choice
+        options:
+          - false
+          - true
 
 env:
   REPO_URL: https://github.com/openwrt/openwrt
@@ -37,8 +53,7 @@ env:
   UPLOAD_FIRMWARE: true
   UPLOAD_RELEASE: ${{ inputs.UPLOAD_RELEASE }}
   TZ: Asia/Shanghai
-  SSH_ACTIONS: false
-  SSH_ACTIONS_2: true
+
 jobs:
   build:
     runs-on: ubuntu-22.04
@@ -94,7 +109,7 @@ jobs:
 
     - name: Start SSH via tmate
       uses: P3TERX/ssh2actions@main
-      if: env.SSH_ACTIONS == 'true' || contains(github.event.action, 'ssh')
+      if: inputs.SSH_ACTIONS == 'true' || contains(github.event.action, 'ssh')
       env:
         TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
@@ -120,7 +135,7 @@ jobs:
 
     - name: After compile, Start SSH via tmate
       uses: P3TERX/ssh2actions@main
-      if: env.SSH_ACTIONS_2 == 'true' || contains(github.event.action, 'ssh')
+      if: inputs.SSH_ACTIONS_2 == 'true' || contains(github.event.action, 'ssh')
       env:
         TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
@@ -159,7 +174,7 @@ jobs:
 
     - name: Generate release tag
       id: tag
-      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+      if: inputs.UPLOAD_RELEASE == 'true' && !cancelled()
       run: |
         echo "release_tag=$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_OUTPUT
         touch release.txt
@@ -184,7 +199,7 @@ jobs:
 
     - name: Remove old Releases
       uses: dev-drprasad/delete-older-releases@master
-      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+      if: inputs.UPLOAD_RELEASE == 'true' && !cancelled()
       with:
         keep_latest: 3
         delete_tags: true
