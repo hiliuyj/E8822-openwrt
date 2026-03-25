@@ -96,20 +96,30 @@ index 0000000000..afde2b652e
 +	status = "okay";
 +};
 +&pcie0 {
++	reg = <0x0000 0 0 0 0>;
++	#address-cells = <1>;
++	#size-cells = <1>;
++	device_type = "pci";
 +	wifi@0,0 {
 +		compatible = "mediatek,mt76";
 +		reg = <0x0000 0 0 0 0>;
-+		mediatek,mtd-eeprom = <&factory 0x0000>;
++		#mediatek,mtd-eeprom = <&factory 0x0000>;
++       firmware-name = "mt7612e_eeprom.bin";
 +		led {
 +			led-active-low;
 +		};
 +	};
 +};
 +&pcie1 {
++	reg = <0x0800 0 0 0 0>;
++	#address-cells = <1>;
++	#size-cells = <1>;
++	device_type = "pci";
 +	wifi@0,0 {
 +		compatible = "mediatek,mt76";
 +		reg = <0x0000 0 0 0 0>;
-+		mediatek,mtd-eeprom = <&factory 0x8000>;
++		#mediatek,mtd-eeprom = <&factory 0x8000>;
++       firmware-name = "mt7603e_eeprom.bin";
 +		led {
 +			led-sources = <2>;
 +			led-active-low;
