@@ -32,7 +32,7 @@ on:
           - false
           - true
       SSH_ACTIONS_2:
-        description: "Befoer compile pakages ,SSH"
+        description: "after compile pakages ,SSH"
         required: false
         default: "false"
         type: choice
