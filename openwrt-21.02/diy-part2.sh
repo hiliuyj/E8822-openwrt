@@ -18,3 +18,10 @@
 
 # Modify hostname
 #sed -i 's/OpenWrt/P3TERX-Router/g' package/base-files/files/bin/config_generate
+
+
+mkdir -p files/lib/firmware
+cp $GITHUB_WORKSPACE/$PATCH_FILES/mt7603e_eeprom.bin files/lib/firmware/mt7603e_eeprom.bin
+cp $GITHUB_WORKSPACE/$PATCH_FILES/mt7612e_eeprom.bin files/lib/firmware/mt7612e_eeprom.bin
+
+
