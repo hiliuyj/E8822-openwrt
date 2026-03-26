@@ -3,7 +3,7 @@ new file mode 100755
 index 0000000000..afde2b652e
 --- /dev/null
 +++ b/target/linux/ramips/dts/mt7621_zte_e8820v2.dts
-@@ -0,0 +1,148 @@
+@@ -0,0 +1,158 @@
 +#include "mt7621.dtsi"
 +
 +#include <dt-bindings/gpio/gpio.h>
