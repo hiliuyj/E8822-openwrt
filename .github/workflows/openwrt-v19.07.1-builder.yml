@@ -10,7 +10,7 @@
 # See /LICENSE for more information.
 #
 
-name: OpenWrt-v19.07.10 Builder
+name: OpenWrt-v19.07.1 Builder
 
 on:
   workflow_dispatch:
