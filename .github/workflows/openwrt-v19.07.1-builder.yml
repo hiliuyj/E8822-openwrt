@@ -36,6 +36,7 @@ on:
 env:
   REPO_URL: https://github.com/openwrt/openwrt
   REPO_BRANCH: v19.07.1
+  PATCH_PATH: v19.07.10
   FEEDS_CONF: feeds.conf.default
   CONFIG_FILE: e8820v2.config
   DIY_P1_SH: diy-part1.sh
@@ -79,10 +80,10 @@ jobs:
     - name: Load custom feeds
       run: |
         [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
-        chmod +x $REPO_BRANCH/$DIY_P1_SH
+        chmod +x $PATCH_PATH/$DIY_P1_SH
         cd openwrt
-        git apply $GITHUB_WORKSPACE/$REPO_BRANCH/$PATCH_FILE
-        $GITHUB_WORKSPACE/$REPO_BRANCH/$DIY_P1_SH
+        git apply $GITHUB_WORKSPACE/$PATCH_PATH/$PATCH_FILE
+        $GITHUB_WORKSPACE/$PATCH_PATH/$DIY_P1_SH
 
     - name: Update feeds
       run: cd openwrt && ./scripts/feeds update -a
@@ -93,12 +94,12 @@ jobs:
     - name: Load custom configuration
       run: |
         [ -e files ] && mv files openwrt/files
-        [ -e $REPO_BRANCH/$CONFIG_FILE ] && cp $REPO_BRANCH/$CONFIG_FILE openwrt/.config
-        chmod +x $REPO_BRANCH/$DIY_P2_SH
+        [ -e $PATCH_PATH/$CONFIG_FILE ] && cp $PATCH_PATH/$CONFIG_FILE openwrt/.config
+        chmod +x $PATCH_PATH/$DIY_P2_SH
         cd openwrt
         make defconfig
-        [ -e $GITHUB_WORKSPACE/$REPO_BRANCH/$CONFIG_FILE ] && cp $GITHUB_WORKSPACE/$REPO_BRANCH/$CONFIG_FILE .config
-        $GITHUB_WORKSPACE/$REPO_BRANCH/$DIY_P2_SH
+        [ -e $GITHUB_WORKSPACE/$PATCH_PATH/$CONFIG_FILE ] && cp $GITHUB_WORKSPACE/$PATCH_PATH/$CONFIG_FILE .config
+        $GITHUB_WORKSPACE/$PATCH_PATH/$DIY_P2_SH
 
     - name: Start SSH via tmate
       uses: P3TERX/ssh2actions@main
