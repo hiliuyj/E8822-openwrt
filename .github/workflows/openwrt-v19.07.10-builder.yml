@@ -24,6 +24,15 @@ on:
           - false
           - true
 
+      SSH_ACTIONS:
+        description: "Befoer compile kernel ,SSH"
+        required: false
+        default: "false"
+        type: choice
+        options:
+          - false
+          - true
+
 env:
   REPO_URL: https://github.com/openwrt/openwrt
   REPO_BRANCH: v19.07.10
@@ -36,7 +45,7 @@ env:
   UPLOAD_FIRMWARE: true
   UPLOAD_RELEASE: ${{ inputs.UPLOAD_RELEASE }}
   TZ: Asia/Shanghai
-  SSH_ACTIONS: false
+
   
 jobs:
   build:
@@ -93,7 +102,7 @@ jobs:
 
     - name: Start SSH via tmate
       uses: P3TERX/ssh2actions@main
-      if: env.SSH_ACTIONS == 'true' || contains(github.event.action, 'ssh')
+      if: inputs.SSH_ACTIONS == 'true' || contains(github.event.action, 'ssh')
       env:
         TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
