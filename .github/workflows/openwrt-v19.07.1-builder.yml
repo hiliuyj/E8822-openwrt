@@ -92,6 +92,14 @@ jobs:
     - name: Update feeds
       run: cd openwrt && ./scripts/feeds update -a
 
+    - name: Start SSH via tmate
+      uses: P3TERX/ssh2actions@main
+      if: inputs.SSH_ACTIONS == 'true' || contains(github.event.action, 'ssh')
+      env:
+        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+
+
     - name: Install feeds
       run: cd openwrt && ./scripts/feeds install -a
 
